@@ -6,13 +6,16 @@ using UnityEngine.InputSystem;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+    [SerializeField] float jumpSpeed;
     Vector2 moveInput;
     Rigidbody2D rb;
+    CapsuleCollider2D capsuleCollider;
     Animator animator;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
     
@@ -25,11 +28,20 @@ public class PlayerMove : MonoBehaviour
     void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+        // how does it reset??
+    }
+
+    void OnJump()
+    {
+        if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return;}
+        rb.velocity += Vector2.up * jumpSpeed;
     }
 
     void Run()
     {
-        rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
+        Vector2 playerVelocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
+        rb.velocity = playerVelocity;
+        
         // set animation state to running
         animator.SetBool("isRunning", moveInput.x != 0);
 
