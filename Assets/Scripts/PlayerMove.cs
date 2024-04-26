@@ -6,8 +6,10 @@ using UnityEngine.InputSystem;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+    [SerializeField] float climbSpeed;
     [SerializeField] float jumpSpeed;
     Vector2 moveInput;
+    float gravityAtStart;
     Rigidbody2D rb;
     CapsuleCollider2D capsuleCollider;
     Animator animator;
@@ -16,6 +18,7 @@ public class PlayerMove : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        gravityAtStart = rb.gravityScale;
     }
 
     
@@ -23,6 +26,7 @@ public class PlayerMove : MonoBehaviour
     {
         Run();
         FlipSprite();
+        ClimbLadder();
     }
 
     void OnMove(InputValue value)
@@ -53,4 +57,21 @@ public class PlayerMove : MonoBehaviour
         if (moveInput.x == 0) return;
         transform.localScale = new Vector3(Mathf.Sign(moveInput.x), 1, 1);
     }
+
+    void ClimbLadder()
+    {
+
+        if (!capsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ladder"))) 
+        { 
+            rb.gravityScale = gravityAtStart;
+            return;
+        }
+
+        rb.gravityScale = 0;
+
+        Vector2 climbVelocity = new Vector2(rb.velocity.x, moveInput.y * climbSpeed);
+        rb.velocity = climbVelocity;
+    }
+
+   
 }
