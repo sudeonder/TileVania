@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
@@ -17,6 +18,8 @@ public class PlayerMove : MonoBehaviour
     BoxCollider2D feetCollider;
     Animator animator;
     bool isAlive;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -106,6 +109,8 @@ public class PlayerMove : MonoBehaviour
             isAlive = false;
             animator.SetBool("isDeath", true);
             rb.velocity = deathKick;
+
+            FindObjectOfType<GameManager>().PlayerDeath();
         }
 
     }
