@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float climbSpeed;
     [SerializeField] float jumpSpeed;
     [SerializeField] Vector2 deathKick = new Vector2(25f, 25f);
+    [SerializeField] GameObject bulletPrefab;
     Vector2 moveInput;
     float gravityAtStart;
     Rigidbody2D rb;
@@ -49,6 +50,20 @@ public class PlayerMove : MonoBehaviour
         rb.velocity += Vector2.up * jumpSpeed;
     }
 
+    void OnFire()
+    {
+        Transform bulletTransform = transform.Find("Gun");
+        if (bulletTransform != null)
+            {
+                // Get the position of the bullet GameObject
+                Vector3 bulletPosition = bulletTransform.position;
+                Quaternion bulletRotation = bulletTransform.rotation;
+
+                // Instantiate the prefab at the position of the bullet
+                Instantiate(bulletPrefab, bulletPosition, bulletRotation);
+            }
+    }
+
     void Run()
     {
         Vector2 playerVelocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
@@ -86,7 +101,7 @@ public class PlayerMove : MonoBehaviour
     void Die()
     {
         // if collision with Enemy layer
-        if (bodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+        if (bodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazard")))
         {
             isAlive = false;
             animator.SetBool("isDeath", true);
