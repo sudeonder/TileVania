@@ -20,7 +20,7 @@ TagManager:
   - Enemy
   - Hazard
   - Bullet
-  - 
+  - Interactables
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: Platform
     uniqueID: 4043405539
+    locked: 0
+  - name: Interactables
+    uniqueID: 1934878199
     locked: 0
   - name: Ladder
     uniqueID: 2706802559
