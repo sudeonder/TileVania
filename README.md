@@ -1,5 +1,9 @@
 # TileVania
 
+Play it here! 
+
+https://sudeonder.itch.io/tilevania
+
 Welcome to our 2D side-scrolling platformer game project! In this game, you'll control a character who navigates through various levels, jumping over obstacles and reaching the end goal.
 
 ## Project Overview
